@@ -1,6 +1,7 @@
 from telebot import types
 
-from models import Position
+from TG_BOT.db import get_client, get_positions
+from models import Position, BasketItem
 
 
 def create_menu():
@@ -12,5 +13,15 @@ def create_menu():
         ))
     markup.add(*buttons)
     return markup
+
+
+def get_basket(telegram_id):
+    position_name = ['Ваши товары в магазине:', '']
+    positions = get_positions(telegram_id)
+    for position in positions:
+        position_name.append(f'{position.title} x 1 - {position.price}')
+    position_name.append('')
+    return '\n'.join(position_name)
+
 
 
