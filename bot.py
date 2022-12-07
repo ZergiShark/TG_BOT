@@ -5,7 +5,7 @@ import db
 
 import utils
 
-bot = telebot.TeleBot('')
+bot = telebot.TeleBot('5144984252:AAHV7RABQQfS_fwqAHFZacaghAco_opHKBE')
 
 def main_markup():
     markup=types.ReplyKeyboardMarkup(resize_keyboard=True, row_width=2)
@@ -20,13 +20,13 @@ def send_welcome(message):
 
 
 @bot.message_handler(content_types=['text'])
-def buttons_handler(message):
+def keyboard_handler(message):
     if message.text == 'Меню':
         bot.send_message(message.chat.id, 'Выберите позицию:', reply_markup=utils.create_menu())
     elif message.text == 'Корзина':
-        bot.send_message(message.chat.id, 'Ваши товары в корзине', utils.create_menu())
-    elif message.text == 'Оформить заказ':
-        bot.send_message(message.chat.id, 'Ваши товары в корзине', utils.create_menu())
+        bot.send_message(message.chat.id, utils.get_basket(message.chat.id))
+    # elif message.text == 'Оформить заказ':
+    #     bot.send_message(message.chat.id, 'Ваши товары в корзине', utils.create_menu())
 
 
 #Inline-кнопки

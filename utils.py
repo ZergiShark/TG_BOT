@@ -5,7 +5,7 @@ from models import Position, BasketItem
 
 
 def create_menu():
-    markup = types.InlineKeyboardMarkup(row_width=2)
+    markup = types.InlineKeyboardMarkup(row_width=1)
     buttons = []
     for position in Position.all():
         buttons.append(types.InlineKeyboardButton(
