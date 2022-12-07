@@ -4,6 +4,7 @@ from telebot import types
 import db
 
 import utils
+from TG_BOT.models import BasketItem
 
 bot = telebot.TeleBot('5144984252:AAHV7RABQQfS_fwqAHFZacaghAco_opHKBE')
 
@@ -25,6 +26,7 @@ def keyboard_handler(message):
         bot.send_message(message.chat.id, 'Выберите позицию:', reply_markup=utils.create_menu())
     elif message.text == 'Корзина':
         bot.send_message(message.chat.id, utils.get_basket(message.chat.id))
+        BasketItem.delete()
     # elif message.text == 'Оформить заказ':
     #     bot.send_message(message.chat.id, 'Ваши товары в корзине', utils.create_menu())
 

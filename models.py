@@ -59,7 +59,8 @@ class DBModel(ABC):
             name_table = self.Meta.table_name
             keys_fields = ', '.join(fields.keys())
             values_fields = ', '.join('?' * len(fields))
-            data = cursor.execute(f"INSERT INTO {name_table} ({keys_fields}) VALUES ({values_fields})", tuple(fields.values()))
+            data = cursor.execute(f"INSERT INTO {name_table} ({keys_fields}) VALUES ({values_fields})",
+                                  tuple(fields.values()))
             base.commit()
             self.id = data.lastrowid
         else:
@@ -67,6 +68,13 @@ class DBModel(ABC):
             fields.pop("id")
             cursor.execute(f"UPDATE {self.Meta.table_name} SET {self.get_set_query(fields)} WHERE id=={self.id}")
             base.commit()
+
+    @classmethod
+    def delete(cls):
+        base = sqlite3.connect("data.db")
+        cursor = base.cursor()
+        cursor.execute(f"DELETE from {cls.Meta.table_name}")
+        base.commit()
 
     class Meta:
         table_name = None
@@ -86,13 +94,11 @@ class Position(DBModel):
         table_name = "positions"
 
 
-
 @dataclasses.dataclass
 class Client(DBModel):
     telegram_id: int
     name: str
     id: int = None
-
 
     class Meta:
         table_name = "clients"

@@ -18,9 +18,12 @@ def create_menu():
 def get_basket(telegram_id):
     position_name = ['Ваши товары в магазине:', '']
     positions = get_positions(telegram_id)
+    total_price = 0
     for position in positions:
         position_name.append(f'{position.title} x 1 - {position.price}')
+        total_price += position.price
     position_name.append('')
+    position_name.append("ИТОГО: " + str(total_price))
     return '\n'.join(position_name)
 
 
